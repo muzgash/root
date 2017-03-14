@@ -1,4 +1,4 @@
-// @(#)root/mpi / Author: Omar.Zapata@cern.ch 2017 http://oproject.org
+// @(#)root/mpi / Author: Gerardo Gutierrez, muzgash@gmail.com
 #ifndef ROOT_Mpi_TCartCommunicator
 #define ROOT_Mpi_TCartCommunicator
 
@@ -34,19 +34,25 @@ namespace ROOT {
             return fComm;
          }
 
-         virtual Int_t GetRemoteSize() const;
-
-         virtual TGroup GetRemoteGroup() const;
-
          TCartCommunicator Dup() const;
 
          virtual TCartCommunicator &Clone() const;
 
-         virtual TCartCommunicator Merge(Int_t high);
+         virtual TCartCommunicator Create(Int_t ndims, const Int_t dims[], const Int_t periods[], Int_t reorder) const;
 
-         virtual TCartCommunicator Create(const TGroup &group) const;
+         Int_t* Coords(Int_t rank, Int_t maxdims) const;
+         
+         void Get(Int_t maxdims, Int_t dims[], Int_t periods[], Int_t coords[]) const;
+         
+         Int_t Map(Int_t ndims, const Int_t dims[], const Int_t periods[]) const;
+         
+         Int_t Rank(Int_t coords[]) const;
+         
+         void Shift(Int_t direction, Int_t disp, Int_t *rank_source, Int_t *rank_dest) const;
 
-         virtual TCartCommunicator Split(Int_t color, Int_t key) const;
+         TCartCommunicator Sub(const Int_t remain_dims[]) const;
+         
+         Int_t DimGet() const;
 
          ClassDef(TCartCommunicator, 3)
       };
